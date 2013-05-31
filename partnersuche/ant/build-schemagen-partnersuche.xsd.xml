@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+     This script translates a COBOL Structure to an XML Schema.
+ -->
+<project basedir="/Users/afr/Applications/MuleStudio/plugins/com.legstar.eclipse.plugin.common_1.5.2/" default="signalSuccess" name="translate-cobol-structure-to-xsd">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+    
+        <!-- Location of output XML Schemas  -->
+        <mkdir dir="/Users/afr/Dropbox/git/legstar-beispiel/partnersuche"/>
+
+        <!-- COBOL Structure to XML Schema translator ant task  -->
+        <taskdef name="cob2xsd"
+            classname="com.legstar.cob2xsd.Cob2XsdTask">
+            <classpath>
+                <fileset dir="${basedir}" includes="lib/*.jar"/>
+                <pathelement location="${basedir}/conf"/>
+            </classpath>
+        </taskdef>
+    
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Generate XML Schemas
+    -->
+    <target name="generateXSD" depends="init">
+        <cob2xsd target="/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/partnersuche.xsd"
+            codeFormat="FIXED_FORMAT"
+            startColumn="7"
+            endColumn="72"
+
+            xsdEncoding="UTF-8"
+            targetNamespace="http://codecentric.de/partnersuche"
+            mapConditionsToFacets="false"
+            customXsltFileName=""
+            nameConflictPrependParentName="false"
+            elementNamesStartWithUppercase="false"
+            ignoreOrphanPrimitiveElements="true"
+
+            addLegStarAnnotations="true"
+
+            currencySign="$"
+            currencySymbol="$"
+            nSymbolDbcs="false"
+            decimalPointIsComma="false"
+            quoteIsQuote="true"
+        >
+            <fileset file="/var/folders/wx/73x12mtx30bd6xbsksnj86kr0000gn/T/legstar-schemagen3343667272396562114.temp"/>
+        </cob2xsd>
+    </target>
+  
+    <!-- ===========================================================  -->
+    <!-- Delete the probe file to signal success
+    -->
+    <target name="signalSuccess" depends="generateXSD">
+        <delete file="/var/folders/wx/73x12mtx30bd6xbsksnj86kr0000gn/T/probe6843372303620728625tmp" quiet="true"/>
+    </target>
+    
+</project>
