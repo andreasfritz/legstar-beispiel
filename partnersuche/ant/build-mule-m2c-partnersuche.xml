@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+     Generate a Mule component as an adapter for a mainframe program.
+     Artifacts can be used to call a remote Mainframe function.
+     Prerequisite: Cobol binding classes should have been generated
+     using LegStar Coxbgen prior to using this script.
+     Refer to http://www.legsem.com/legstar for info on generating binding classes.
+  -->
+<project basedir=".." default="signalSuccess" name="generate-mule2cics">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+
+        <property environment="env"/>
+        <property name="mule.home" value=""/>
+        <property name="legstar.home" value="${env.LEGSTAR_HOME}"/>
+
+        <!-- Classpath setting -->
+        <path id="classpath">
+            <pathelement location="/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/bin"/>
+            <pathelement location="/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/bin"/>
+            <pathelement location="/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/bin"/>
+            <fileset dir="/Users/afr/Applications/MuleStudio/plugins/com.legstar.eclipse.plugin.common_1.5.2/" includes="lib/*.jar" />
+            <fileset dir="/Users/afr/Applications/MuleStudio/plugins/com.legstar.eclipse.plugin.mulegen_3.1.0/" includes="lib/*.jar" />
+            <fileset dir="${mule.home}" includes="lib/mule/*.jar" />
+        </path>
+
+        <!-- Mule component Generator ant task -->
+        <taskdef name="mule2cixsgen"
+          classname="org.mule.transport.legstar.gen.Mule2CixsGenerator"
+          classpathref="classpath" 
+        /> 
+
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- This step creates all the artifacts for a Mule component.    -->
+  
+    <target name="generateMule2Cixs" depends="init">
+    
+        <mule2cixsgen targetSrcDir="/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/src/main/java"
+            targetMuleConfigDir="/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/conf"
+            targetDistDir="/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/dist"
+            targetAntDir="/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/ant"
+            targetAppsDir="/apps"
+            targetBinDir="/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/bin"
+            jaxbBinDir="/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/bin"
+            coxbBinDir="/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/bin"
+            custBinDir="/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/bin"
+            hostCharset="IBM01141"
+            sampleConfigurationTransport="HTTP"
+            sampleConfigurationHostMessagingType="LEGSTAR"
+            sampleConfigurationPayloadType="JAVA"
+            sampleConfigurationFileName="mule-config.xml"
+          >
+            <cixsMuleComponent name="partnersuche"
+                packageName="de.codecentric.partnersuche.cixs">
+                <cixsOperation name="suchePartner"
+                    cicsProgramName="PARTNER1"
+                    >
+                    <input
+                        jaxbType="Dfhcommarea"
+                        jaxbPackageName="de.codecentric.partnersuche"
+                    />
+                    <output
+                        jaxbType="Dfhcommarea"
+                        jaxbPackageName="de.codecentric.partnersuche"
+                    />
+                </cixsOperation>
+            </cixsMuleComponent>
+            <!-- HTTP transport parameters -->
+            <httpTransportParameters
+                scheme="http"
+                host="mainframe"
+                port="4081"
+                path="/CICS/CWBA/LSWEBBIN"
+            />
+        </mule2cixsgen>
+    
+    </target>
+  
+    <!-- ===========================================================  -->
+    <!-- Delete the probe file to signal success
+    -->
+    <target name="signalSuccess" depends="generateMule2Cixs">
+        <delete file="/var/folders/wx/73x12mtx30bd6xbsksnj86kr0000gn/T/probe1771669205296201650tmp" quiet="true"/>
+    </target>
+    
+</project>
