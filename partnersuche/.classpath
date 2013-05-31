@@ -7,6 +7,9 @@
 	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" path="src/test/resources"/>
 	<classpathentry kind="con" path="com.legstar.eclipse.LIBRARY"/>
-	<classpathentry kind="con" path="com.legstar.eclipse.mule.LIBRARY"/>
+	<classpathentry kind="lib" path="/Users/afr/Applications/eclipse/plugins/com.legstar.eclipse.plugin.mulegen_3.1.0/lib/legstar-mule-generator-3.1.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="/Users/afr/Applications/eclipse/plugins/com.legstar.eclipse.plugin.mulegen_3.1.0/lib/legstar-mule-generator-3.1.0.jar"/>
+	<classpathentry kind="lib" path="/Users/afr/Applications/eclipse/plugins/com.legstar.eclipse.plugin.mulegen_3.1.0/lib/legstar-mule-transport-3.1.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="/Users/afr/Applications/eclipse/plugins/com.legstar.eclipse.plugin.mulegen_3.1.0/lib/legstar-mule-transport-3.1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
