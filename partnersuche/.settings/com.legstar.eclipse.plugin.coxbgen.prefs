@@ -1,0 +1,18 @@
+#Fri May 31 09:30:21 CEST 2013
+coxbBinDir=/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/bin
+coxbPackageName=de.codecentric.partnersuche.bind
+coxbSrcDir=/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/src/main/java
+eciCompatible=false
+eclipse.preferences.version=1
+generateIsSetMethod=true
+internalBindings=true
+isCompileTransformers=false
+isJsonTransformers=false
+isXmlTransformers=true
+jaxbBinDir=/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/bin
+jaxbPackageName=de.codecentric.partnersuche
+jaxbRootClassNames_0=Dfhcommarea
+jaxbSrcDir=/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/src/main/java
+noPackageInfo=false
+serializableID=1
+xsdFile=/Users/afr/Dropbox/git/legstar-beispiel/partnersuche/partnersuche.xsd
