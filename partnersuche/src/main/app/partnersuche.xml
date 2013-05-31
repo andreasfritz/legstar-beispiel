@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- This Mule configuration implements an adapter service for a mainframe 
+	program. Clients of this Mule service are expected to send serialized java 
+	objects over HTTP. Transport from Mule service to mainframe is LEGSTAR-HTTP. -->
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:legstar="http://www.mulesoft.org/schema/mule/legstar"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.1/mule.xsd
+         http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/3.1/mule-http.xsd
+         http://www.mulesoft.org/schema/mule/legstar http://www.legsem.com/legstar/xml/mule-legstar-3.1.xsd
+        ">
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="CE-3.3.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
-http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd "></mule>
+	<description>Mule configuration for partnersuche adapter service
+	</description>
+
+
+	<!-- Transform serialized java objects to mainframe data -->
+	<legstar:java-to-host-transformer
+		name="suchePartnerJavaToHost" hostCharset="IBM01141"
+		class="de.codecentric.partnersuche.cixs.DfhcommareaToHostMuleTransformer" />
+
+	<!-- Transform mainframe data to serialized java objects -->
+	<legstar:host-to-java-transformer
+		name="suchePartnerHostToJava" hostCharset="IBM01141"
+		class="de.codecentric.partnersuche.cixs.HostToDfhcommareaMuleTransformer" />
+
+	<!-- Wrap mainframe data in a LegStar request for mainframe program execution -->
+	<legstar:host-to-legstar-transformer
+		name="suchePartnerHostToLegStar" hostCharset="IBM01141">
+		<legstar:host-program name="PARTNER1"
+			maxDataLength="70">
+		</legstar:host-program>
+	</legstar:host-to-legstar-transformer>
+
+	<!-- Unwrap LegStar response to mainframe program execution -->
+	<legstar:legstar-to-host-transformer
+		name="suchePartnerLegStarToHost" />
+
+	<http:endpoint name="suchePartnerClientEndpoint"
+		exchange-pattern="request-response" address="http://localhost:3280/suchePartner">
+		<byte-array-to-object-transformer />
+	</http:endpoint>
+
+	<legstar:endpoint name="mainframeRequestEndpoint"
+		exchange-pattern="request-response" address="legstar://mainframe:4081/CICS/CWBA/LSWEBBIN" />
+
+	<flow name="suchePartnerAdapter">
+		<inbound-endpoint ref="suchePartnerClientEndpoint" />
+		<outbound-endpoint ref="mainframeRequestEndpoint"
+			transformer-refs="suchePartnerJavaToHost suchePartnerHostToLegStar"
+			responseTransformer-refs="suchePartnerLegStarToHost suchePartnerHostToJava" />
+	</flow>
+</mule>
