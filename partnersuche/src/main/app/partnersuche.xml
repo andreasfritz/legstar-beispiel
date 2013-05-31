@@ -44,14 +44,15 @@ http://www.mulesoft.org/schema/mule/legstar http://www.legsem.com/legstar/xml/mu
 			name="byte-array-to-object-transformer" />
 	</http:endpoint>
 
+	<legstar:endpoint name="mainframeRequestEndpoint"
+		exchange-pattern="request-response" address="legstar://max:max@mainframe:4081/CICS/CWBA/LSWEBBIN" />
+
 	<flow name="suchePartnerAdapter" doc:name="suchePartnerAdapter">
 		<inbound-endpoint ref="suchePartnerClientEndpoint"
 			doc:name="HTTP Endpoint" exchange-pattern="request-response" />
-		<http:outbound-endpoint
+		<outbound-endpoint ref="mainframeRequestEndpoint"
 			transformer-refs="suchePartnerJavaToHost suchePartnerHostToLegStar"
 			responseTransformer-refs="suchePartnerLegStarToHost suchePartnerHostToJava"
-			doc:name="LegStar Endpoint" exchange-pattern="request-response" host="mainframe"
-			port="4081" path="CICS/CWBA/LSWEBBIN" mimeType="application/octet-stream"
-			user="max" password="max" />
+			doc:name="LegStar Endpoint" exchange-pattern="request-response" />
 	</flow>
 </mule>
