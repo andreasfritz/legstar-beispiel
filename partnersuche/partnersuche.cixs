@@ -1,0 +1,6 @@
+<cixsMapping name="partnersuche">
+<cixsOperation name="suchePartner" cicsProgramName="PARTNER1" faultType="SuchePartnerFault" faultInfoType="SuchePartnerFaultInfo" requestHolderType="Dfhcommarea" requestWrapperType="SuchePartnerRequest" responseHolderType="Dfhcommarea" responseWrapperType="SuchePartnerResponse">
+<input jaxbType="Dfhcommarea" jaxbPackageName="de.codecentric.partnersuche" coxbType="DfhcommareaBinding" coxbPackageName="de.codecentric.partnersuche.bind" cobolRootDataItemName="Dfhcommarea" jaxbPropertyName="Dfhcommarea" jaxbFieldName="dfhcommarea"/>
+<output jaxbType="Dfhcommarea" jaxbPackageName="de.codecentric.partnersuche" coxbType="DfhcommareaBinding" coxbPackageName="de.codecentric.partnersuche.bind" cobolRootDataItemName="Dfhcommarea" jaxbPropertyName="Dfhcommarea" jaxbFieldName="dfhcommarea"/>
+</cixsOperation>
+</cixsMapping>
