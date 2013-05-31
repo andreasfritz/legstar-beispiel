@@ -2,11 +2,12 @@
 <!-- This Mule configuration implements an adapter service for a mainframe 
 	program. Clients of this Mule service are expected to send serialized java 
 	objects over HTTP. Transport from Mule service to mainframe is LEGSTAR-HTTP. -->
-<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns:legstar="http://www.mulesoft.org/schema/mule/legstar"
 	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd 
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
@@ -37,19 +38,12 @@ http://www.mulesoft.org/schema/mule/legstar http://www.legsem.com/legstar/xml/mu
 	<legstar:legstar-to-host-transformer
 		name="suchePartnerLegStarToHost" />
 
-	<http:endpoint name="suchePartnerClientEndpoint"
-		exchange-pattern="request-response" address="http://localhost:3280/suchePartner"
-		doc:name="HTTP">
-		<byte-array-to-object-transformer
-			name="byte-array-to-object-transformer" />
-	</http:endpoint>
-
 	<legstar:endpoint name="mainframeRequestEndpoint"
 		exchange-pattern="request-response" address="legstar://max:max@mainframe:4081/CICS/CWBA/LSWEBBIN" />
 
 	<flow name="suchePartnerAdapter" doc:name="suchePartnerAdapter">
-		<inbound-endpoint ref="suchePartnerClientEndpoint"
-			doc:name="HTTP Endpoint" exchange-pattern="request-response" />
+		<vm:inbound-endpoint exchange-pattern="request-response"
+			path="partnersuche" doc:name="VM Endpoint" />
 		<outbound-endpoint ref="mainframeRequestEndpoint"
 			transformer-refs="suchePartnerJavaToHost suchePartnerHostToLegStar"
 			responseTransformer-refs="suchePartnerLegStarToHost suchePartnerHostToJava"
