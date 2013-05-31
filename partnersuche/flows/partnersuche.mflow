@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="partnersuche">
     <global-unknown index="1" description="true" entity-id="global-unknown#1">
-        <content>&lt;description xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot;&gt;Mule configuration for partnersuche adapter service
-	&lt;/description&gt;</content>
+        <content>&lt;description xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot;&gt;Mule configuration for partnersuche adapter service&lt;/description&gt;</content>
     </global-unknown>
     <global-unknown index="2" unknownName="suchePartnerJavaToHost" description="false" entity-id="global-unknown#2">
         <content>&lt;legstar:java-to-host-transformer xmlns:legstar=&quot;http://www.mulesoft.org/schema/mule/legstar&quot; name=&quot;suchePartnerJavaToHost&quot; hostCharset=&quot;IBM01141&quot; class=&quot;de.codecentric.partnersuche.cixs.DfhcommareaToHostMuleTransformer&quot;/&gt;</content>
@@ -67,7 +66,7 @@
     <global-unknown index="9" unknownName="mainframeRequestEndpoint" description="false" entity-id="global-unknown#6">
         <content>&lt;legstar:endpoint xmlns:legstar=&quot;http://www.mulesoft.org/schema/mule/legstar&quot; name=&quot;mainframeRequestEndpoint&quot; exchange-pattern=&quot;request-response&quot; address=&quot;legstar://mainframe:4081/CICS/CWBA/LSWEBBIN&quot;/&gt;</content>
     </global-unknown>
-    <flow SubFlow="false" name="suchePartnerAdapter" entity-id="ba3457c9-f0bb-4990-8e4f-7bd66fa86e45">
+    <flow SubFlow="false" name="suchePartnerAdapter" entity-id="231e7969-686c-4a15-a482-72de13b6e7e2">
         <properties>
             <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
@@ -79,10 +78,10 @@
             <property value="10" name="auxiliary;index"/>
         </properties>
         <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#1">
-            <endpoint message-exchange-pattern="OneWay" direction="Inbound" type="http://www.mulesoft.org/schema/mule/core/endpoint" name="Generic" entity-id="Generic#1">
+            <endpoint message-exchange-pattern="OneWay" direction="Inbound" type="http://www.mulesoft.org/schema/mule/core/endpoint" name="HTTP Endpoint" entity-id="Generic#1">
                 <properties>
                     <property value="one-way" name="exchange-pattern"/>
-                    <property name="exchange-pattern"/>
+                    <property value="request-response" name="exchange-pattern"/>
                     <property value="11" name="auxiliary;index"/>
                     <property name="address"/>
                     <property value="11" name="auxiliary;index"/>
@@ -105,10 +104,10 @@
                     <property value="11" name="auxiliary;index"/>
                 </properties>
             </endpoint>
-            <endpoint message-exchange-pattern="OneWay" direction="Outbound" type="http://www.mulesoft.org/schema/mule/core/endpoint" name="Generic" entity-id="Generic#2">
+            <endpoint message-exchange-pattern="OneWay" direction="Outbound" type="http://www.mulesoft.org/schema/mule/core/endpoint" name="LegStar Endpoint" entity-id="Generic#2">
                 <properties>
                     <property value="one-way" name="exchange-pattern"/>
-                    <property name="exchange-pattern"/>
+                    <property value="request-response" name="exchange-pattern"/>
                     <property value="12" name="auxiliary;index"/>
                     <property name="address"/>
                     <property value="12" name="auxiliary;index"/>
