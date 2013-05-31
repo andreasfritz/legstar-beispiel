@@ -2,16 +2,18 @@
 <!-- This Mule configuration implements an adapter service for a mainframe 
 	program. Clients of this Mule service are expected to send serialized java 
 	objects over HTTP. Transport from Mule service to mainframe is LEGSTAR-HTTP. -->
-<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:legstar="http://www.mulesoft.org/schema/mule/legstar"
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:legstar="http://www.mulesoft.org/schema/mule/legstar"
 	xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
-http://www.mulesoft.org/schema/mule/legstar http://www.legsem.com/legstar/xml/mule-legstar-3.1.xsd " version="CE-3.3.1">
+http://www.mulesoft.org/schema/mule/legstar http://www.legsem.com/legstar/xml/mule-legstar-3.1.xsd "
+	version="CE-3.3.1">
 
 	<description>Mule configuration for partnersuche adapter service</description>
-
 
 	<!-- Transform serialized java objects to mainframe data -->
 	<legstar:java-to-host-transformer
@@ -36,17 +38,21 @@ http://www.mulesoft.org/schema/mule/legstar http://www.legsem.com/legstar/xml/mu
 		name="suchePartnerLegStarToHost" />
 
 	<http:endpoint name="suchePartnerClientEndpoint"
-		exchange-pattern="request-response" address="http://localhost:3280/suchePartner" doc:name="HTTP">
-		<byte-array-to-object-transformer name="byte-array-to-object-transformer" />
+		exchange-pattern="request-response" address="http://localhost:3280/suchePartner"
+		doc:name="HTTP">
+		<byte-array-to-object-transformer
+			name="byte-array-to-object-transformer" />
 	</http:endpoint>
 
 	<legstar:endpoint name="mainframeRequestEndpoint"
-		exchange-pattern="request-response" address="legstar://mainframe:4081/CICS/CWBA/LSWEBBIN" />
+		exchange-pattern="request-response" address="legstar://max:max@mainframe:4081/CICS/CWBA/LSWEBBIN" />
 
 	<flow name="suchePartnerAdapter" doc:name="suchePartnerAdapter">
-		<inbound-endpoint ref="suchePartnerClientEndpoint" doc:name="HTTP Endpoint" exchange-pattern="request-response"/>
+		<inbound-endpoint ref="suchePartnerClientEndpoint"
+			doc:name="HTTP Endpoint" exchange-pattern="request-response" />
 		<outbound-endpoint ref="mainframeRequestEndpoint"
 			transformer-refs="suchePartnerJavaToHost suchePartnerHostToLegStar"
-			responseTransformer-refs="suchePartnerLegStarToHost suchePartnerHostToJava" doc:name="LegStar Endpoint" exchange-pattern="request-response"/>
+			responseTransformer-refs="suchePartnerLegStarToHost suchePartnerHostToJava"
+			doc:name="LegStar Endpoint" exchange-pattern="request-response" />
 	</flow>
 </mule>

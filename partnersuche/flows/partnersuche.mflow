@@ -64,9 +64,9 @@
         </properties>
     </global-element>
     <global-unknown index="9" unknownName="mainframeRequestEndpoint" description="false" entity-id="global-unknown#6">
-        <content>&lt;legstar:endpoint xmlns:legstar=&quot;http://www.mulesoft.org/schema/mule/legstar&quot; name=&quot;mainframeRequestEndpoint&quot; exchange-pattern=&quot;request-response&quot; address=&quot;legstar://mainframe:4081/CICS/CWBA/LSWEBBIN&quot;/&gt;</content>
+        <content>&lt;legstar:endpoint xmlns:legstar=&quot;http://www.mulesoft.org/schema/mule/legstar&quot; name=&quot;mainframeRequestEndpoint&quot; exchange-pattern=&quot;request-response&quot; address=&quot;legstar://max:max@mainframe:4081/CICS/CWBA/LSWEBBIN&quot;/&gt;</content>
     </global-unknown>
-    <flow SubFlow="false" name="suchePartnerAdapter" entity-id="231e7969-686c-4a15-a482-72de13b6e7e2">
+    <flow SubFlow="false" name="suchePartnerAdapter" entity-id="e53d9dc6-93c5-4842-85cb-b9d76207a33c">
         <properties>
             <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
