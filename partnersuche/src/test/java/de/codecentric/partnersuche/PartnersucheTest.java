@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mule.api.MuleException;
 import org.mule.api.MuleMessage;
-import org.mule.module.client.MuleClient;
 import org.mule.tck.junit4.FunctionalTestCase;
 
 public class PartnersucheTest extends FunctionalTestCase {
@@ -15,7 +14,7 @@ public class PartnersucheTest extends FunctionalTestCase {
 		Dfhcommarea dfhcommarea = new ObjectFactory().createDfhcommarea();
 		dfhcommarea.setPartnerNr("1234567890");
 
-		MuleMessage muleMessage = new MuleClient(muleContext).send(
+		MuleMessage muleMessage = muleContext.getClient().send(
 				"vm://partnersuche", dfhcommarea, null);
 
 		Object payload = muleMessage.getPayload();
